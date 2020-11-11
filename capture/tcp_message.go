@@ -149,7 +149,6 @@ func (t *TCPMessage) AddPacket(packet *TCPPacket) {
 	}
 
 	t.checkSeqIntegrity()
-
 	if t.protocol == ProtocolHTTP {
 		t.updateHeadersPacket()
 		t.updateMethodType()
@@ -265,14 +264,22 @@ func (t *TCPMessage) checkIfComplete() {
 	switch t.bodyType {
 	case httpBodyEmpty:
 		t.complete = true
+		//log.Print("checkIfComplete httpBodyEmpty")
 	case httpBodyContentLength:
 		if t.contentLength == 0 || t.contentLength == t.BodySize() {
 			t.complete = true
+			//log.Print("checkIfComplete httpBodyContentLength")
 		}
 	case httpBodyChunked:
 		lastPacket := t.packets[len(t.packets)-1]
-		if bytes.LastIndex(lastPacket.Data, bChunkEnd) != -1 {
+		//if bytes.LastIndex(lastPacket.Data, bChunkEnd) != -1 {
+		//	t.complete = true
+		//	//log.Print("checkIfComplete httpBodyChunked")
+		//}
+		correctIndex :=len(lastPacket.Data)-len(bChunkEnd)
+		if bytes.LastIndex(lastPacket.Data, bChunkEnd) == correctIndex {
 			t.complete = true
+			//log.Print("checkIfComplete httpBodyChunked")
 		}
 	default:
 		if len(t.packets) == 0 {
@@ -282,6 +289,7 @@ func (t *TCPMessage) checkIfComplete() {
 		last := t.packets[len(t.packets)-1]
 		if last.IsFIN {
 			t.complete = true
+			//log.Print("checkIfComplete last.IsFIN")
 		}
 	}
 }

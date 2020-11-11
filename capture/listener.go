@@ -155,9 +155,10 @@ func (t *Listener) listen() {
 			}
 			return
 		case packet := <-t.packetsChan:
-			if packet.srcIP!=nil && len(packet.srcIP) == 4 &&packet.srcIP[2]==249 && packet.srcIP[3]==75{
-				log.Println("tcpPacket 249.75 setting:",string(packet.data[:]))
-			}
+			//if packet.srcIP!=nil && len(packet.srcIP) == 4 &&packet.srcIP[2]==249 && packet.srcIP[3]==75{
+			//
+			//}
+			//log.Println("tcpPacket 249.75 setting:",string(packet.data[:]))
 			tcpPacket := ParseTCPPacket(packet.srcIP, packet.data, packet.timestamp)
 			t.processTCPPacket(tcpPacket)
 		case <-gcTicker:
@@ -478,8 +479,8 @@ func (t *Listener) readPcap() {
 				ipLength := int(binary.BigEndian.Uint16(data[2:4]))
 
 				if version == 4 {
-					log.Println("packetsChan setting  249.75 ipv4")
-					log.Println("packetsChan setting  249.75 of",of)
+					//log.Println("packetsChan setting  249.75 ipv4")
+					//log.Println("packetsChan setting  249.75 of",of)
 
 					ihl := uint8(data[0]) & 0x0F
 
@@ -490,36 +491,36 @@ func (t *Listener) readPcap() {
 
 					srcIP = data[12:16]
 					dstIP = data[16:20]
-					if srcIP!=nil && len(srcIP) == 4 &&srcIP[2]==249 && srcIP[3]==75{
-						log.Println("packetsChan setting  249.75 -1 data+++++++:",string(data[:]))
-					}
-					if dstIP!=nil && len(dstIP) == 4 &&dstIP[2]==249 && dstIP[3]==75{
-						log.Println("dst packetsChan setting  249.75 -1 data+++++++:",string(data[:]))
-					}
+					//if srcIP!=nil && len(srcIP) == 4 &&srcIP[2]==249 && srcIP[3]==75{
+					//	log.Println("packetsChan setting  249.75 -1 data+++++++:",string(data[:]))
+					//}
+					//if dstIP!=nil && len(dstIP) == 4 &&dstIP[2]==249 && dstIP[3]==75{
+					//	log.Println("dst packetsChan setting  249.75 -1 data+++++++:",string(data[:]))
+					//}
 					// Too small IP packet
 					if ipLength < 20 {
 						continue
 					}
-					if srcIP!=nil && len(srcIP) == 4 &&srcIP[2]==249 && srcIP[3]==75{
-						log.Println("packetsChan setting  249.75 0 data+++++++:",string(data[:]))
-					}
-					if dstIP!=nil && len(dstIP) == 4 &&dstIP[2]==249 && dstIP[3]==75{
-						log.Println("dst packetsChan setting  249.75 0 data+++++++:",string(data[:]))
-					}
+					//if srcIP!=nil && len(srcIP) == 4 &&srcIP[2]==249 && srcIP[3]==75{
+					//	log.Println("packetsChan setting  249.75 0 data+++++++:",string(data[:]))
+					//}
+					//if dstIP!=nil && len(dstIP) == 4 &&dstIP[2]==249 && dstIP[3]==75{
+					//	log.Println("dst packetsChan setting  249.75 0 data+++++++:",string(data[:]))
+					//}
 					// Invalid length
 					if int(ihl*4) > ipLength {
 						continue
 					}
-					if srcIP!=nil && len(srcIP) == 4 &&srcIP[2]==249 && srcIP[3]==75{
-						log.Println("len(data) :",len(data))
-						log.Println("iplength:",ipLength)
-						log.Println("packetsChan setting  249.75 1 data+++++++:",string(data[:]))
-					}
-					if dstIP!=nil && len(dstIP) == 4 &&dstIP[2]==249 && dstIP[3]==75{
-						log.Println("len(data) :",len(data))
-						log.Println("iplength:",ipLength)
-						log.Println("dst packetsChan setting  249.75 1 data+++++++:",string(data[:]))
-					}
+					//if srcIP!=nil && len(srcIP) == 4 &&srcIP[2]==249 && srcIP[3]==75{
+					//	log.Println("len(data) :",len(data))
+					//	log.Println("iplength:",ipLength)
+					//	log.Println("packetsChan setting  249.75 1 data+++++++:",string(data[:]))
+					//}
+					//if dstIP!=nil && len(dstIP) == 4 &&dstIP[2]==249 && dstIP[3]==75{
+					//	log.Println("len(data) :",len(data))
+					//	log.Println("iplength:",ipLength)
+					//	log.Println("dst packetsChan setting  249.75 1 data+++++++:",string(data[:]))
+					//}
 					if cmp := len(data) - ipLength; cmp > 0 {
 						data = data[:ipLength]
 					} else if cmp < 0 {
@@ -539,12 +540,12 @@ func (t *Listener) readPcap() {
 
 					data = data[40:]
 				}
-				if srcIP!=nil && len(srcIP) == 4 &&srcIP[2]==249 && srcIP[3]==75{
-					log.Println("packetsChan setting  249.75 2 data+++++++:",string(data[:]))
-				}
-				if dstIP!=nil && len(dstIP) == 4 &&dstIP[2]==249 && dstIP[3]==75{
-					log.Println("dst packetsChan setting  249.75 2 data+++++++:",string(data[:]))
-				}
+				//if srcIP!=nil && len(srcIP) == 4 &&srcIP[2]==249 && srcIP[3]==75{
+				//	log.Println("packetsChan setting  249.75 2 data+++++++:",string(data[:]))
+				//}
+				//if dstIP!=nil && len(dstIP) == 4 &&dstIP[2]==249 && dstIP[3]==75{
+				//	log.Println("dst packetsChan setting  249.75 2 data+++++++:",string(data[:]))
+				//}
 				// Truncated TCP info
 				if len(data) <= 13 {
 					continue
@@ -552,12 +553,12 @@ func (t *Listener) readPcap() {
 
 				dataOffset := data[12] >> 4
 				isFIN := data[13]&0x01 != 0
-				if srcIP!=nil && len(srcIP) == 4 &&srcIP[2]==249 && srcIP[3]==75{
-					log.Println("packetsChan setting  249.75 3 data+++++++:",string(data[:]))
-				}
-				if dstIP!=nil && len(dstIP) == 4 &&dstIP[2]==249 && dstIP[3]==75{
-					log.Println("dst packetsChan setting  249.75 3 data+++++++:",string(data[:]))
-				}
+				//if srcIP!=nil && len(srcIP) == 4 &&srcIP[2]==249 && srcIP[3]==75{
+				//	log.Println("packetsChan setting  249.75 3 data+++++++:",string(data[:]))
+				//}
+				//if dstIP!=nil && len(dstIP) == 4 &&dstIP[2]==249 && dstIP[3]==75{
+				//	log.Println("dst packetsChan setting  249.75 3 data+++++++:",string(data[:]))
+				//}
 				// We need only packets with data inside
 				// Check that the buffer is larger than the size of the TCP header
 				if len(data) > int(dataOffset*4) || isFIN {
@@ -578,12 +579,12 @@ func (t *Listener) readPcap() {
 						if len(addrCheck) == 0 {
 							continue
 						}
-						if srcIP!=nil && len(srcIP) == 4 &&srcIP[2]==249 && srcIP[3]==75{
-							log.Println("packetsChan setting  249.75 4 data+++++++:",string(data[:]))
-						}
-						if dstIP!=nil && len(dstIP) == 4 &&dstIP[2]==249 && dstIP[3]==75{
-							log.Println("dst packetsChan setting  249.75 4 data+++++++:",string(data[:]))
-						}
+						//if srcIP!=nil && len(srcIP) == 4 &&srcIP[2]==249 && srcIP[3]==75{
+						//	log.Println("packetsChan setting  249.75 4 data+++++++:",string(data[:]))
+						//}
+						//if dstIP!=nil && len(dstIP) == 4 &&dstIP[2]==249 && dstIP[3]==75{
+						//	log.Println("dst packetsChan setting  249.75 4 data+++++++:",string(data[:]))
+						//}
 						addrMatched := false
 
 						if loopback {
@@ -612,14 +613,14 @@ func (t *Listener) readPcap() {
 							continue
 						}
 					}
-					log.Println("readpcap : ")
-					if srcIP!=nil && len(srcIP) == 4 &&srcIP[2]==249 && srcIP[3]==75{
-						log.Println("packetsChan setting  249.75 5 data+++++++:",string(data[:]))
-					}
-
-					if dstIP!=nil && len(dstIP) == 4 &&dstIP[2]==249 && dstIP[3]==75{
-						log.Println("dst packetsChan setting  249.75 5 data+++++++:",string(data[:]))
-					}
+					//log.Println("readpcap : ")
+					//if srcIP!=nil && len(srcIP) == 4 &&srcIP[2]==249 && srcIP[3]==75{
+					//	log.Println("packetsChan setting  249.75 5 data+++++++:",string(data[:]))
+					//}
+					//
+					//if dstIP!=nil && len(dstIP) == 4 &&dstIP[2]==249 && dstIP[3]==75{
+					//	log.Println("dst packetsChan setting  249.75 5 data+++++++:",string(data[:]))
+					//}
 					t.packetsChan <- t.buildPacket(srcIP, data, packet.Metadata().Timestamp)
 				}
 			}
@@ -851,6 +852,7 @@ func (t *Listener) processTCPPacket(packet *TCPPacket) {
 	}
 
 	// Adding packet to message
+	//log.Println("message.AddPacket(packet) ", string(packet.Data[:]))
 	message.AddPacket(packet)
 
 	// Handling Expect: 100-continue requests
@@ -903,13 +905,15 @@ func (t *Listener) processTCPPacket(packet *TCPPacket) {
 
 	// If message contains only single packet immediately dispatch it
 	if message.complete {
-		// log.Println("COMPLETE!", isIncoming, message)
+		//log.Println("COMPLETE!", isIncoming, message)
+		//log.Println("COMPLETE! message", message)
 		if isIncoming {
 			if t.trackResponse {
-				// log.Println("Found response!", message.ResponseID, t.messages)
-
+				//log.Println("Found response message.ResponseID!", message.ResponseID)
+				//log.Println("Found response! len(t.messages)", len(t.messages))
 				if resp, ok := t.messages[message.ResponseID]; ok {
 					if resp.complete {
+						//log.Println("Found response! resp", resp)
 						t.dispatchMessage(resp)
 					}
 
@@ -919,12 +923,15 @@ func (t *Listener) processTCPPacket(packet *TCPPacket) {
 				t.dispatchMessage(message)
 			}
 		} else {
+			//log.Println("isIncoming false", isIncoming)
 			if message.AssocMessage == nil {
 				return
 			}
 
 			if req, ok := t.messages[message.AssocMessage.ID()]; ok {
 				if req.complete {
+					//log.Println("isIncoming false req", req)
+					//log.Println("isIncoming false message", message)
 					t.dispatchMessage(req)
 					t.dispatchMessage(message)
 				}
